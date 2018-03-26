@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-class ExampleController extends Controller
+use App\Models\Orders;
+use App\Models\OrderItems;
+
+class OrdersController extends Controller
 {
     /**
      * Create a new controller instance.
