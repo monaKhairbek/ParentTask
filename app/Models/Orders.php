@@ -8,9 +8,6 @@ use Helper;
 class Orders extends Model {
 
     public $table = 'orders';
-
-    const dicountMin = 25;
-
     protected $fillable = [
         'order_id',
         'email',
@@ -39,29 +36,29 @@ class Orders extends Model {
 
         $discountPercentage = 0;
         $discountMaxPercentage = env('DISCOUNT_MAX_PERCENTAGE');
-        
+
         $content = Helper::webContentExtractor();
         $stringCount = Helper::stringCount($content);
-        
+
         if ($stringCount > 0) {
             $discountPercentage = $stringCount;
-            
+
             if ($stringCount > $discountMaxPercentage) {
                 $discountPercentage = $discountMaxPercentage;
             }
         }
-        
+
         return $discountPercentage;
     }
-    
-    public function calculateDiscountValue($totalAmount){
-        
+
+    public function calculateDiscountValue($totalAmount) {
+
         $discountPercentage = $this->calculateDiscountPercentage();
         $discountValue = $totalAmount * $discountPercentage / 100;
         return $discountValue;
     }
-    
-    public function calculateTotalAfterDiscount($totalAmount, $discountValue){
+
+    public function calculateTotalAfterDiscount($totalAmount, $discountValue) {
         $totalAfterDiscount = $totalAmount - $discountValue;
         return $totalAfterDiscount;
     }

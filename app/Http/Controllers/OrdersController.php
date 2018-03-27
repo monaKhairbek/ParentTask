@@ -19,7 +19,7 @@ class OrdersController extends Controller {
     }
 
     public function postOrder(Request $request) {
-        
+
         $orderRequest = $request['parameters']['order'];
         $order = Orders::create([
                     'order_id' => $orderRequest['order_id'],
@@ -31,17 +31,18 @@ class OrdersController extends Controller {
 
 
         $statusCode = 422;
-        
+
         if ($order) {
-            
+
             $order->discount_percentage = $order->calculateDiscountPercentage();
             $order->discount_value = $order->calculateDiscountValue($order->total_amount_net);
             $order->total_after_discount = $order->calculateTotalAfterDiscount($order->total_amount_net, $order->discount_value);
             $order->save();
-            $items = $orderRequest['items'];
             
+            $items = $orderRequest['items'];
+
             if ($items) {
-                foreach($items as $item) {
+                foreach ($items as $item) {
                     OrderItems::create([
                         'order_id' => $order->id,
                         'name' => $item['name'],
