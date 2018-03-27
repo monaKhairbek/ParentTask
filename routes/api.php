@@ -11,10 +11,11 @@
  */
 
 
-$app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers'], function($app)
+$router->group(['prefix' => 'api/v1'], function($router)
 {
-	$app->post('orders','OrdersController@postOrders');
+	$router->post('orders','OrdersController@postOrder');
 });
+
 
 
 

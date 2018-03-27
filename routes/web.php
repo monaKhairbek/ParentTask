@@ -16,6 +16,8 @@ $router->get('/', function () use ($router) {
 });
 
 
+
+
 // Was created to generate .env Key,, As (php artisan key:generate) command not working with Lumen 
 
 //$router->get('/key', function() {
