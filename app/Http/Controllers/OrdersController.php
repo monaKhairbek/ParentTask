@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\OrderItems;
-use Helper;
+use App\Models\Tags;
+use App\Models\CollectionTag;
 
 class OrdersController extends Controller {
 
@@ -52,6 +53,21 @@ class OrdersController extends Controller {
                         'subcategory' => $item['subcategory'],
                         'collection_id' => $item['collection_id'],
                     ]);
+                    
+                    if($item['tags']){
+                        $tags = $item['tags'];
+                        for($i = 0; $i < count($tags); $i++){
+                            $tag = Tags::create([
+                                'title' => $tags[$i]
+                            ]);
+                            if($tag){
+                                CollectionTag::create([
+                                    'tag_id' => $tag->id,
+                                    'collection_id' => $item['collection_id']
+                                ]);
+                            }
+                        }
+                    }
                 }
             }
             $statusCode = 200;
