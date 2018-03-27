@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\OrderItems;
+use Helper;
 
 class OrdersController extends Controller {
 
@@ -18,6 +19,7 @@ class OrdersController extends Controller {
     }
 
     public function postOrder(Request $request) {
+        
         $orderRequest = $request['parameters']['order'];
         $order = Orders::create([
                     'order_id' => $orderRequest['order_id'],
@@ -29,8 +31,13 @@ class OrdersController extends Controller {
 
 
         $statusCode = 422;
+        
         if ($order) {
-
+            
+            $order->discount_percentage = $order->calculateDiscountPercentage();
+            $order->discount_value = $order->calculateDiscountValue($order->total_amount_net);
+            $order->total_after_discount = $order->calculateTotalAfterDiscount($order->total_amount_net, $order->discount_value);
+            $order->save();
             $items = $orderRequest['items'];
             
             if ($items) {
