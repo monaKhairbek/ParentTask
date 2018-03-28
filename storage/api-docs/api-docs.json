@@ -1,0 +1,23 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "PROJECT TITLE",
+        "contact": {
+            "email": "your@email.com"
+        },
+        "version": "1.0.0"
+    },
+    "basePath": "/api/v1",
+    "schemes": [
+        "http"
+    ],
+    "paths": {},
+    "definitions": {},
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "query"
+        }
+    }
+}

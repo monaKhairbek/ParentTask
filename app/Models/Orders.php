@@ -31,14 +31,17 @@ class Orders extends Model {
         'shipping_costs' => 'required',
         'payment_method' => 'required'
     ];
-
+    
+    /*
+     * Description: Method to calculate discount Percentage
+     */
     public function calculateDiscountPercentage() {
 
         $discountPercentage = 0;
         $discountMaxPercentage = env('DISCOUNT_MAX_PERCENTAGE');
 
-        $content = Helper::webContentExtractor();
-        $stringCount = Helper::stringCount($content);
+        $content = Helper::webContentExtractor();       // Get Web Page content
+        $stringCount = Helper::stringCount($content);   //  Cout Discount string in extracted Content
 
         if ($stringCount > 0) {
             $discountPercentage = $stringCount;
@@ -51,6 +54,11 @@ class Orders extends Model {
         return $discountPercentage;
     }
 
+    
+    /*
+     * Description: Calculate Discount value from total amount and calculated percentage
+    */
+    
     public function calculateDiscountValue($totalAmount) {
 
         $discountPercentage = $this->calculateDiscountPercentage();
@@ -58,6 +66,9 @@ class Orders extends Model {
         return $discountValue;
     }
 
+    /*
+     * Description: Calculate total amount after decreasing the cisount value
+     */
     public function calculateTotalAfterDiscount($totalAmount, $discountValue) {
         $totalAfterDiscount = $totalAmount - $discountValue;
         return $totalAfterDiscount;
